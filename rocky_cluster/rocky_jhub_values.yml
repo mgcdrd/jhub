@@ -22,11 +22,11 @@ hub:
       lookup_dn: true
       lookup_dn_search_filter: ({login_attr}={login})
       user_search_base: cn=users,LDAP_DN_INFO
-      #allowed_groups:
-      #- cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
-      #- cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
-      #admin_groups:
-      #- cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      allowed_groups:
+      - grp-jhub-user #cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
+      - grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      admin_groups:
+      - grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
       user_attribute: uid
       # Bind account info
       lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID
