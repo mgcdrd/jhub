@@ -1,0 +1,28 @@
+workflow:
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+#=====================================================
+
+#variables:
+  
+Deploy JHub Rocky:
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
+  tags:
+  - "rocky-k8s"
+  script:
+  - sed -i "s/LDAP_DN_INFO/${LDAP_DN_INFO}/g"           rocky_cluster/rocky_jhub_values.yml
+  - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
+  - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
+  - >
+    helm upgrade jhub jupyterhub
+    -n jhub
+    --create-namespace
+    --install
+    --atomic
+    -f rocky_cluster/rocky_jhub_values.yml
+    --repo https://jupyterhub.github.io/helm-chart/
+    --set hub.config.LDAPAuthenticator.server_address=${DC_SERVER}
+    --set ingress.annotation.
+
+    
