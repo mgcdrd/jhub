@@ -45,6 +45,7 @@ hub:
       userdata_params:
         state: state
       scope:
+      - openid
       - groups
       - email
       allowed_groups:
