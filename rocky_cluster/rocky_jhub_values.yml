@@ -22,8 +22,11 @@ hub:
       lookup_dn: true
       lookup_dn_search_filter: ({login_attr}={login})
       user_search_base: cn=users,LDAP_DN_INFO
-      allowed_groups:
-      - cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
+      #allowed_groups:
+      #- cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
+      #- cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      #admin_groups:
+      #- cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
       user_attribute: uid
       # Bind account info
       lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID
@@ -37,11 +40,6 @@ hub:
       token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
       userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
       login_service: keycloak
-      admin_groups:
-      - grp-jhub-admin
-      allowed_groups:
-      - grp-jhub-user
-      - grp-jhub-admin
       manage_groups: true
       username_key: preferred_username
       userdata_params:
