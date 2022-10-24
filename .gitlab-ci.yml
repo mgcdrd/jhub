@@ -23,7 +23,7 @@ Deploy JHub Rocky:
     -f rocky_cluster/rocky_jhub_values.yml
     --repo https://jupyterhub.github.io/helm-chart/
     --set hub.config.LDAPAuthenticator.server_address=${DC_SERVER}
-    --set hub.config.LDAPAuthenticator.lookup_dn_search_user="${LDAP_BIND_UID}""
+    --set hub.config.LDAPAuthenticator.lookup_dn_search_user="${LDAP_BIND_UID}"
     --set hub.config.LDAPAuthenticator.lookup_dn_search_password=${LDAP_BIND_PASSWD}
     --set hub.config.GenericOAuthenticator.client_secret=${OAUTH_SECRET}
 
