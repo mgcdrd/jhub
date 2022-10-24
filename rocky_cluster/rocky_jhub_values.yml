@@ -38,10 +38,10 @@ hub:
       userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
       login_service: keycloak
       admin_groups:
-      - cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      - grp-jhub-admin
       allowed_groups:
-      - cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
-      - cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      - grp-jhub-user
+      - grp-jhub-admin
       manage_groups: true
       username_key: preferred_username
       userdata_params:
