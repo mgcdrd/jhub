@@ -1,0 +1,188 @@
+# custom can contain anything you want to pass to the hub pod, as all passed
+# Helm template values will be made available there.
+custom: {}
+
+hub:
+  revisionHistoryLimit:
+  config:
+    JupyterHub:
+      admin_access: true
+      manage_groups: true
+      authenticator_class: generic-oauth
+      #authenticator_class: ldapauthenticator.LDAPAuthenticator
+    # Ref: https://github.com/jupyterhub/ldapauthenticator
+    LDAPAuthenticator:
+      # LDAPS conn info
+      server_address: SET_IN_CLI
+      server_port: 636
+      use_ssl: true
+      # Account look up settings
+      valid_username_regex: ^[A-Za-z]*.[A-Za-z]*$
+      bind_dn_template:
+      - uid={username},cn=users,LDAP_DN_INFO
+      lookup_dn: true
+      lookup_dn_search_filter: ({login_attr}={login})
+      user_search_base: cn=users,LDAP_DN_INFO
+      allowed_groups:
+      - cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
+      user_attribute: uid
+      # Bind account info
+      lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID
+      lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD
+      lookup_dn_user_dn_attribute: uid
+    GenericOAuthenticator:
+      client_id: JHub
+      client_secret: SET_IN_CLI #OAUTH_SECRET
+      oauth_callback_url: https://OAUTH_SERVER_FQDN/hub/oauth_callback
+      authorize_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/auth
+      token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
+      userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
+      login_service: keycloak
+      username_key: preferred_username
+      userdata_params:
+        state: state
+      scope:
+      - groups
+      - email
+
+  service:
+    type: ClusterIP
+    annotations: {}
+    ports:
+      nodePort:
+    extraPorts: []
+  db:
+    type: sqlite-pvc
+    upgrade:
+    pvc:
+      annotations: {}
+      selector: {}
+      accessModes:
+        - ReadWriteOnce
+      storage: 1Gi
+      subPath:
+      storageClassName:
+    url:
+    password:
+  image:
+    name: jupyterhub/k8s-hub
+    tag: "2.0.0"
+  # inject additional functionality into the hub
+  #  Arbitrary extra python based configuration that should be in /usr/local/etc/jupyterhub/jupyterhub_config.py
+  extraConfig: {}
+  #  This can for example be used to inject: configuration files, custom user interface templates, images, and more
+  extraFiles: {}
+    ## The file key is just a reference that doesn't influence the
+    ## actual file name.
+    #<file key>:
+    #  # mountPath is required and must be the absolute file path.
+    #  mountPath: <full file path>
+
+    #  # Choose one out of the three ways to represent the actual file
+    #  # content: data, stringData, or binaryData.
+    #  #
+    #  # data should be set to a mapping (dictionary). It will in the
+    #  # end be rendered to either YAML, JSON, or TOML based on the
+    #  # filename extension that are required to be either .yaml, .yml,
+    #  # .json, or .toml.
+    #  #
+    #  # If your content is YAML, JSON, or TOML, it can make sense to
+    #  # use data to represent it over stringData as data can be merged
+    #  # instead of replaced if set partially from separate Helm
+    #  # configuration files.
+    #  #
+    #  # Both stringData and binaryData should be set to a string
+    #  # representing the content, where binaryData should be the
+    #  # base64 encoding of the actual file content.
+    #  #
+    #  data:
+    #    myConfig:
+    #      myMap:
+    #        number: 123
+    #        string: "hi"
+    #      myList:
+    #        - 1
+    #        - 2
+    #  stringData: |
+    #    hello world!
+    #  binaryData: aGVsbG8gd29ybGQhCg==
+
+    #  # mode is by default 0644 and you can optionally override it
+    #  # either by octal notation (example: 0400) or decimal notation
+    #  # (example: 256).
+    #  mode: <file system permissions>
+  networkPolicy:
+    enabled: false
+  serviceAccount:
+    create: true
+
+rbac:
+  create: true
+
+proxy:
+  service:
+    type: ClusterIP
+
+# singleuser relates to the configuration of KubeSpawner which runs in the hub
+# pod, and its spawning of user pods such as jupyter-myusername.
+singleuser:
+  networkTools:
+    image:
+      name: jupyterhub/k8s-network-tools
+      tag: "2.0.0"
+  cloudMetadata:
+    blockWithIptables: false
+  networkPolicy:
+    enabled: true
+  events: true
+  extraLabels:
+    hub.jupyter.org/network-access-hub: "true"
+  allowPrivilegeEscalation: false
+  storage:
+    type: dynamic
+    extraLabels: {}
+    extraVolumes: []
+    extraVolumeMounts: []
+    static:
+      pvcName:
+      subPath: "{username}"
+    capacity: 10Gi
+    homeMountPath: /home/jovyan
+    dynamic:
+      storageClass: nfs-client
+      pvcNameTemplate: claim-{username}{servername}
+      volumeNameTemplate: volume-{username}{servername}
+      storageAccessModes: [ReadWriteOnce]
+  image:
+    name: jupyter/scipy-notebook
+    tag: "latest"
+  startTimeout: 300
+  cmd: jupyterhub-singleuser
+  defaultUrl: "/lab"
+  extraPodConfig: {}
+  profileList: []
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "le-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.domains.0.main: jhub.LAB_DOMAIN
+  ingressClassName: "traefik"
+  hosts:
+  - jhub.LAB_DOMAIN
+  pathSuffix:
+  pathType: Prefix
+  tls:
+  - secretName: jhub-tls
+    hosts:
+    - jhub.LAB_DOMAIN
+
+cull:
+  timeout: 3600
+debug:
+  enabled: false
+global:
+  safeToShowValues: false
+
