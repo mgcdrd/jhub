@@ -8,30 +8,6 @@ hub:
     JupyterHub:
       admin_access: true
       authenticator_class: generic-oauth
-      #authenticator_class: ldapauthenticator.LDAPAuthenticator
-    ## Ref: https://github.com/jupyterhub/ldapauthenticator
-    #LDAPAuthenticator:
-      # LDAPS conn info
-      #server_address: SET_IN_CLI
-      #server_port: 636
-      #use_ssl: true
-      ## Account look up settings
-      #valid_username_regex: ^[A-Za-z]*.[A-Za-z]*$
-      #bind_dn_template:
-      #- uid={username},cn=users,LDAP_DN_INFO
-      #lookup_dn: true
-      #lookup_dn_search_filter: ({login_attr}={login})
-      #user_search_base: cn=users,LDAP_DN_INFO
-      #allowed_groups:
-      #- grp-jhub-user #cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
-      #- grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
-      #admin_groups:
-      #- grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
-      #user_attribute: uid
-      ## Bind account info
-      #lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID
-      #lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD
-      #lookup_dn_user_dn_attribute: uid
     GenericOAuthenticator:
       client_id: JHub
       client_secret: SET_IN_CLI #OAUTH_SECRET
@@ -44,14 +20,11 @@ hub:
       username_key: preferred_username
       userdata_params:
         state: state
-      #scope:
-      #- groups
-      #- email
       allowed_groups:
-      - grp-jhub-user #cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
-      - grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      - grp-jhub-user
+      - grp-jhub-admin
       admin_groups:
-      - grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      - grp-jhub-admin
 
   service:
     type: ClusterIP
@@ -79,7 +52,10 @@ hub:
   #  Arbitrary extra python based configuration that should be in /usr/local/etc/jupyterhub/jupyterhub_config.py
   extraConfig: {}
   #  This can for example be used to inject: configuration files, custom user interface templates, images, and more
-  extraFiles: {}
+  extraFiles:
+    profileList:
+      mountPath: /usr/local/etc/jupyterhub/profiles.py
+      stringData: SET_IN_CI
     ## The file key is just a reference that doesn't influence the
     ## actual file name.
     #<file key>:
