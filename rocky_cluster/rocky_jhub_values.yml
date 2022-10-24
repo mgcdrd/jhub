@@ -7,7 +7,6 @@ hub:
   config:
     JupyterHub:
       admin_access: true
-      manage_groups: true
       authenticator_class: generic-oauth
       #authenticator_class: ldapauthenticator.LDAPAuthenticator
     # Ref: https://github.com/jupyterhub/ldapauthenticator
@@ -38,6 +37,12 @@ hub:
       token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
       userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
       login_service: keycloak
+      admin_groups:
+      - cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      allowed_groups:
+      - cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
+      - cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      manage_groups: true
       username_key: preferred_username
       userdata_params:
         state: state

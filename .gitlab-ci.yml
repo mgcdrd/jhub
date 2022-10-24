@@ -23,6 +23,6 @@ Deploy JHub Rocky:
     -f rocky_cluster/rocky_jhub_values.yml
     --repo https://jupyterhub.github.io/helm-chart/
     --set hub.config.LDAPAuthenticator.server_address=${DC_SERVER}
-    --set ingress.annotation.
+    
 
     
