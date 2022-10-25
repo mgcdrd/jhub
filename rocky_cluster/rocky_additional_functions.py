@@ -14,7 +14,7 @@ def get_profiles(spawner):
   return profile_list
 
 #debug
-def print_auth_hook(authenticator, handler, authentication)
+def print_auth_hook(authenticator, handler, authentication):
   print(f'vars(authenticator)')
   print(f'vars(authentication)')
   return authentication
