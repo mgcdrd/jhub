@@ -12,3 +12,9 @@ def get_profiles(spawner):
   profile_list.append(profiles.medium_instance)
 
   return profile_list
+
+#debug
+def print_auth_hook(authenticator, handler, authentication)
+  print(f'vars(authenticator)')
+  print(f'vars(authentication)')
+  return authentication
