@@ -50,9 +50,10 @@ hub:
     tag: "2.0.0"
   # inject additional functionality into the hub
   #  Arbitrary extra python based configuration that should be in /usr/local/etc/jupyterhub/jupyterhub_config.py
-  extraConfig: |-
-    import profiles
-    import additional_functions
+  extraConfig: 
+    import_custom: |-
+      import profiles
+      import additional_functions
   extraFiles:
     profileList:
       mountPath: /usr/local/etc/jupyterhub/profiles.py
