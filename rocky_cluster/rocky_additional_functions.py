@@ -6,9 +6,9 @@ def get_profiles(spawner):
 
   print(vars(spawner))
 
-  profiles = []
+  profile_list = []
 
-  profiles.append(profiles.small_instance)
-  profiles.append(profiles.medium_instance)
+  profile_list.append(profiles.small_instance)
+  profile_list.append(profiles.medium_instance)
 
-  return profiles
+  return profile_list
