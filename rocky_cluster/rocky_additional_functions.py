@@ -4,7 +4,7 @@ import profiles
 @gen.coroutine
 def get_profiles(spawner):
 
-  print(vars(spawner))
+  #print(vars(spawner))
 
   profile_list = []
 

@@ -53,7 +53,6 @@ hub:
   extraConfig: 
     import_custom: |
       import additional_functions as functs
-
       c.KubeSpawner.profile_list = functs.get_profiles
   extraFiles:
     profileList:
@@ -134,7 +133,7 @@ ingress:
 cull:
   timeout: 3600
 debug:
-  enabled: false
+  enabled: true
 global:
   safeToShowValues: false
 
