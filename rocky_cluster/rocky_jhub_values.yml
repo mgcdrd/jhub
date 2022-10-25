@@ -57,6 +57,7 @@ hub:
       
       #debug
       c.Authenticator.post_auth_hook = functs.print_auth_hook
+      c.Spawner.auth_stat_hook = functs.userdata_hook
 
       c.KubeSpawner.profile_list = functs.get_profiles
   extraFiles:
