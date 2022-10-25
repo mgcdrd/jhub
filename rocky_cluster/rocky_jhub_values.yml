@@ -53,9 +53,9 @@ hub:
   extraConfig: 
     import_custom: |
       import profiles
-      import additional_functions
+      import additional_functions as functs
 
-      c.KubeSpawner.profile_list = profiles.get_profiles
+      c.KubeSpawner.profile_list = functs.get_profiles
   extraFiles:
     profileList:
       mountPath: /usr/local/etc/jupyterhub/profiles.py
