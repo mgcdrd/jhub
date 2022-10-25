@@ -51,14 +51,14 @@ hub:
   # inject additional functionality into the hub
   #  Arbitrary extra python based configuration that should be in /usr/local/etc/jupyterhub/jupyterhub_config.py
   extraConfig: 
-    import_custom: >
+    import_custom: |-
       import profiles
       import additional_functions
   extraFiles:
     profileList:
       mountPath: /usr/local/etc/jupyterhub/profiles.py
       stringData: SET_IN_CI
-      
+
     profileSpawnerFunctions:
       mountPath: /usr/local/etc/jupyterhub/additional_functions.py
       stringData: SET_IN_CI
