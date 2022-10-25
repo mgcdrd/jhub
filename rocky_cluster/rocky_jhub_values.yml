@@ -51,7 +51,7 @@ hub:
   # inject additional functionality into the hub
   #  Arbitrary extra python based configuration that should be in /usr/local/etc/jupyterhub/jupyterhub_config.py
   extraConfig: 
-    import_custom: |-
+    import_custom: |
       import profiles
       import additional_functions
   extraFiles:
