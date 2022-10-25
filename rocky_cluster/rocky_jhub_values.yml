@@ -8,30 +8,6 @@ hub:
     JupyterHub:
       admin_access: true
       authenticator_class: generic-oauth
-      #authenticator_class: ldapauthenticator.LDAPAuthenticator
-    ## Ref: https://github.com/jupyterhub/ldapauthenticator
-    #LDAPAuthenticator:
-      # LDAPS conn info
-      #server_address: SET_IN_CLI
-      #server_port: 636
-      #use_ssl: true
-      ## Account look up settings
-      #valid_username_regex: ^[A-Za-z]*.[A-Za-z]*$
-      #bind_dn_template:
-      #- uid={username},cn=users,LDAP_DN_INFO
-      #lookup_dn: true
-      #lookup_dn_search_filter: ({login_attr}={login})
-      #user_search_base: cn=users,LDAP_DN_INFO
-      #allowed_groups:
-      #- grp-jhub-user #cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
-      #- grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
-      #admin_groups:
-      #- grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
-      #user_attribute: uid
-      ## Bind account info
-      #lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID
-      #lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD
-      #lookup_dn_user_dn_attribute: uid
     GenericOAuthenticator:
       client_id: JHub
       client_secret: SET_IN_CLI #OAUTH_SECRET
@@ -42,14 +18,14 @@ hub:
       login_service: keycloak
       manage_groups: true
       username_key: preferred_username
+      enable_auth_state: true
       userdata_params:
         state: state
-
       allowed_groups:
-      - grp-jhub-user #cn=grp-jhub-user,cn=groups,LDAP_DN_INFO
-      - grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      - grp-jhub-user
+      - grp-jhub-admin
       admin_groups:
-      - grp-jhub-admin #cn=grp-jhub-admin,cn=groups,LDAP_DN_INFO
+      - grp-jhub-admin
 
   service:
     type: ClusterIP
@@ -75,48 +51,22 @@ hub:
     tag: "2.0.0"
   # inject additional functionality into the hub
   #  Arbitrary extra python based configuration that should be in /usr/local/etc/jupyterhub/jupyterhub_config.py
-  extraConfig: {}
-  #  This can for example be used to inject: configuration files, custom user interface templates, images, and more
-  extraFiles: {}
-    ## The file key is just a reference that doesn't influence the
-    ## actual file name.
-    #<file key>:
-    #  # mountPath is required and must be the absolute file path.
-    #  mountPath: <full file path>
+  extraConfig: 
+    import_custom: |
+      import additional_functions as functs
+      
+      #debug
+      c.Authenticator.post_auth_hook = functs.print_auth_hook
 
-    #  # Choose one out of the three ways to represent the actual file
-    #  # content: data, stringData, or binaryData.
-    #  #
-    #  # data should be set to a mapping (dictionary). It will in the
-    #  # end be rendered to either YAML, JSON, or TOML based on the
-    #  # filename extension that are required to be either .yaml, .yml,
-    #  # .json, or .toml.
-    #  #
-    #  # If your content is YAML, JSON, or TOML, it can make sense to
-    #  # use data to represent it over stringData as data can be merged
-    #  # instead of replaced if set partially from separate Helm
-    #  # configuration files.
-    #  #
-    #  # Both stringData and binaryData should be set to a string
-    #  # representing the content, where binaryData should be the
-    #  # base64 encoding of the actual file content.
-    #  #
-    #  data:
-    #    myConfig:
-    #      myMap:
-    #        number: 123
-    #        string: "hi"
-    #      myList:
-    #        - 1
-    #        - 2
-    #  stringData: |
-    #    hello world!
-    #  binaryData: aGVsbG8gd29ybGQhCg==
+      c.KubeSpawner.profile_list = functs.get_profiles
+  extraFiles:
+    profileList:
+      mountPath: /usr/local/etc/jupyterhub/profiles.py
+      stringData: SET_IN_CI
 
-    #  # mode is by default 0644 and you can optionally override it
-    #  # either by octal notation (example: 0400) or decimal notation
-    #  # (example: 256).
-    #  mode: <file system permissions>
+    profileSpawnerFunctions:
+      mountPath: /usr/local/etc/jupyterhub/additional_functions.py
+      stringData: SET_IN_CI
   networkPolicy:
     enabled: false
   serviceAccount:
@@ -188,7 +138,7 @@ ingress:
 cull:
   timeout: 3600
 debug:
-  enabled: false
+  enabled: true
 global:
   safeToShowValues: false
 
