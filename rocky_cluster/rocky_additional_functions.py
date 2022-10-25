@@ -11,5 +11,3 @@ def get_profiles(spawner):
   profiles.append(medium_instance)
 
   return profiles
-
-c.KubeSpawner.profile_list = get_profiles
