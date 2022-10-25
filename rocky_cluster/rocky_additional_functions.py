@@ -1,3 +1,5 @@
+from tornado import gen
+
 @gen.coroutine
 def get_profiles(spawner):
   
