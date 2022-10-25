@@ -16,10 +16,9 @@ def get_profiles(spawner):
 #debug
 def print_auth_hook(authenticator, handler, authentication):
   print(vars(authenticator))
-  print(vars(authentication))
   return authentication
 
 #debug
 def userdata_hook(spawner, auth_state):
-    self.log.debug(f'Returning auth_state: vars(auth_state')
-    spawner.userdata = auth_state["userdata"]
+  print(vars(auth_state))
+  spawner.userdata = auth_state["userdata"]
