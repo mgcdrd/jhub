@@ -55,7 +55,7 @@ hub:
       import profiles
       import additional_functions
 
-      c.KubeSpawner.profile_list = get_profiles
+      c.KubeSpawner.profile_list = profiles.get_profiles
   extraFiles:
     profileList:
       mountPath: /usr/local/etc/jupyterhub/profiles.py
