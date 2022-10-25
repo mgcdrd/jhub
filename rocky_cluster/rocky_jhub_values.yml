@@ -18,6 +18,7 @@ hub:
       login_service: keycloak
       manage_groups: true
       username_key: preferred_username
+      enable_auth_state: true
       userdata_params:
         state: state
       allowed_groups:
@@ -53,6 +54,8 @@ hub:
   extraConfig: 
     import_custom: |
       import additional_functions as functs
+
+      print(c.Authenticator.authenticate())
       c.KubeSpawner.profile_list = functs.get_profiles
   extraFiles:
     profileList:
