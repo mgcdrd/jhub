@@ -56,8 +56,8 @@ hub:
       import additional_functions as functs
       
       #debug
-      c.Authenticator.post_auth_hook = functs.print_auth_hook
-      c.Spawner.auth_stat_hook = functs.userdata_hook
+      #c.Authenticator.post_auth_hook = functs.print_auth_hook
+      c.Spawner.auth_state_hook = functs.userdata_hook
 
       c.KubeSpawner.profile_list = functs.get_profiles
   extraFiles:
