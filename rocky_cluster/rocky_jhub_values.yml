@@ -57,10 +57,11 @@ hub:
   extraFiles:
     profileList:
       mountPath: /usr/local/etc/jupyterhub/profiles.py
-      stringData: > SET_IN_CI
+      stringData: SET_IN_CI
+      
     profileSpawnerFunctions:
       mountPath: /usr/local/etc/jupyterhub/additional_functions.py
-      stringData: > SET_IN_CI
+      stringData: SET_IN_CI
   networkPolicy:
     enabled: false
   serviceAccount:
