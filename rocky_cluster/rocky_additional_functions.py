@@ -20,5 +20,5 @@ def print_auth_hook(authenticator, handler, authentication):
 
 #debug
 def userdata_hook(spawner, auth_state):
-  print(vars(auth_state))
+  print(auth_state)
   spawner.userdata = auth_state["userdata"]
