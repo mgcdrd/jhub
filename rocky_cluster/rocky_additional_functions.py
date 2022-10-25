@@ -4,7 +4,7 @@ import profiles
 @gen.coroutine
 def get_profiles(spawner):
 
-  print(spawner.user.auth_state)
+  print(vars(spawner.user))
 
   profile_list = []
   profile_list.append(profiles.small_instance)
