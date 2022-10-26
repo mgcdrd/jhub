@@ -16,7 +16,7 @@ hub:
       server_port: 636
       use_ssl: true 
       lookup_dn: true   
-      user_search_base: 'cn=users,dc=lab,dc=provenzawt,dc=dev'
+      user_search_base: 'cn=users,cn=accounts,dc=lab,dc=provenzawt,dc=dev'
       user_attribute: 'uid'
       lookup_dn_user_dn_attribute: 'uid'
       lookup_dn_search_filter: '({login_attr}={login})'
