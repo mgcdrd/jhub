@@ -17,7 +17,7 @@ def get_profiles(spawner):
 
 @gen.coroutine
 def set_env(spawner):
-
+print(" ")
   #auth_state = yield spawner.user.get_auth_state()
 
   
@@ -36,5 +36,5 @@ def set_env(spawner):
 
 #debug
 def userdata_hook(spawner):
-  #print(auth_state)
   spawner.userdata = auth_state["userdata"]
+  #print(auth_state)
