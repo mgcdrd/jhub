@@ -5,7 +5,7 @@ import profiles
 def get_profiles(spawner):
 
   auth_state = yield spawner.user.get_auth_state()
-
+  print(vars(auth_state))
   profile_list = []
   profile_list.append(profiles.small_instance)
   
@@ -20,6 +20,7 @@ def set_env(spawner):
 
   auth_state = yield spawner.user.get_auth_state()
 
+  
   spawner.uid = #the uid from the get__auth_state
   supplemental_gids
   gid

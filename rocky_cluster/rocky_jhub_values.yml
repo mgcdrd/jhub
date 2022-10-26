@@ -7,25 +7,50 @@ hub:
   config:
     JupyterHub:
       admin_access: true
-      authenticator_class: generic-oauth
-    GenericOAuthenticator:
-      client_id: JHub
-      client_secret: SET_IN_CLI #OAUTH_SECRET
-      oauth_callback_url: https://jhub.LAB_DOMAIN/hub/oauth_callback
-      authorize_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/auth
-      token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
-      userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
-      login_service: keycloak
-      manage_groups: true
-      username_key: preferred_username
-      enable_auth_state: true
-      userdata_params:
-        state: state
-      allowed_groups:
-      - grp-jhub-user
-      - grp-jhub-admin
+      #authenticator_class: generic-oauth
+      authenticator_class: ldapauthenticator.LDAPAuthenticator
+    ## Ref: https://github.com/jupyterhub/ldapauthenticator
+    LDAPAuthenticator:
+      # LDAPS conn info
+      server_address: SET_IN_CLI  # IP or FQDN only, no ldap(s)://
+      server_port: 636
+      use_ssl: true 
+      ## Account look up settings
+      valid_username_regex: ^[A-Za-z]*.[A-Za-z]*$  #good base for username characters
+      bind_dn_template:
+      - uid={username},cn=users,dc=acme,dc=com       #this is what jhub will use to make the query to ldap for the user info
+      lookup_dn: true                                 #keeping this true for AD, sounds iffy for openldap or ipa
+      lookup_dn_search_filter: ({login_attr}={login}) 
+      user_search_base: cn=users,dc=acme,dc=com       #base search dn to find users
+      allowed_groups:                                 #full DN group info to allow access a lsit of strings
+      - "cn=grp-jhub-user,cn=groups,dc=acme,dc=com"
+      - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com"
       admin_groups:
-      - grp-jhub-admin
+      - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com"   #similar to allowed_groups, but not exact - obviously
+      user_attribute: uid                              #the user's uid (for openldap and ipa), of sAM-thing in AD
+      # Bind account info
+      lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID         #when using the lookup_dn, some ldaps don't like anonymous binds
+      lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD  #when using the lookup_dn, some ldaps don't like anonymous binds
+      lookup_dn_user_dn_attribute: uid
+      enable_auth_state: true
+    #GenericOAuthenticator:
+      #client_id: JHub
+      #client_secret: SET_IN_CLI #OAUTH_SECRET
+      #oauth_callback_url: https://jhub.LAB_DOMAIN/hub/oauth_callback
+      #authorize_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/auth
+      #token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
+      #userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
+      #login_service: keycloak
+      #manage_groups: true
+      #username_key: preferred_username
+      #enable_auth_state: true
+      #userdata_params:
+        #state: state
+      #allowed_groups:
+      #- grp-jhub-user
+      #- grp-jhub-admin
+      #admin_groups:
+      #- grp-jhub-admin
 
   service:
     type: ClusterIP
