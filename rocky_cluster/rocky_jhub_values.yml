@@ -19,7 +19,7 @@ hub:
       user_search_base: 'cn=users,cn=accounts,dc=lab,dc=provenzawt,dc=dev'
       user_attribute: 'uid'
       lookup_dn_user_dn_attribute: 'username'
-      lookup_dn_search_filter: '({login_attr}={login})'
+      lookup_dn_search_filter: '(&(objectClass=person)(uid={username}))' #'({login_attr}={login})'
       allowed_groups: 
       - "cn=grp-jhub-user,cn=groups,dc=acme,dc=com"
       - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com"
