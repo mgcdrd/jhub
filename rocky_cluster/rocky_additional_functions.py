@@ -18,18 +18,18 @@ def get_profiles(spawner):
 @gen.coroutine
 def set_env(spawner):
 
-  auth_state = yield spawner.user.get_auth_state()
+  #auth_state = yield spawner.user.get_auth_state()
 
   
-  spawner.uid = #the uid from the get__auth_state
-  supplemental_gids
-  gid
+  #spawner.uid = #the uid from the get__auth_state
+  #supplemental_gids
+  #gid
 
 
 
-  volumes #just like volumes on a pod
-  volume_mounts #just like volumeMounts on a pod
-  working_dir
+  #volumes #just like volumes on a pod
+  #volume_mounts #just like volumeMounts on a pod
+  #working_dir
 
 
 
