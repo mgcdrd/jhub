@@ -19,10 +19,10 @@ hub:
       bind_dn_template: 
       - "uid={username},cn=users,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
       allowed_groups: 
-      - "cn=grp-jhub-user,cn=groups,dc=acme,dc=com"
-      - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com"
+      - "cn=grp-jhub-user,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
+      - "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
       admin_groups:
-      - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com" 
+      - "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev" 
 
       # Bind account info
       lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID         #when using the lookup_dn, some ldaps don't like anonymous binds
