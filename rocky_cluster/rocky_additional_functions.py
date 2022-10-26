@@ -40,4 +40,4 @@ def set_env(spawner):
 #debug
 def userdata_hook(spawner):
   #spawner.userdata = auth_state["userdata"]
-  print(auth_state)
+  print(" ")
