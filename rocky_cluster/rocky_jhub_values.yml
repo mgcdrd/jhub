@@ -15,17 +15,15 @@ hub:
       server_address: SET_IN_CLI 
       server_port: 636
       use_ssl: true 
-      lookup_dn: true   
-      user_search_base: 'cn=users,cn=accounts,dc=lab,dc=provenzawt,dc=dev'
-      user_attribute: 'uid'
-      lookup_dn_user_dn_attribute: 'username'
-      lookup_dn_search_filter: '(&(objectClass=person)(uid={username}))' #'({login_attr}={login})'
+      lookup_dn: false
+      bind_dn_template: 
+      - "uid={username},cn=users,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
       allowed_groups: 
       - "cn=grp-jhub-user,cn=groups,dc=acme,dc=com"
       - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com"
       admin_groups:
       - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com" 
-      enable_auth_state: true
+
       # Bind account info
       lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID         #when using the lookup_dn, some ldaps don't like anonymous binds
       lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD  #when using the lookup_dn, some ldaps don't like anonymous binds
