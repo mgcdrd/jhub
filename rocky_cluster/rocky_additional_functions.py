@@ -12,7 +12,7 @@ def get_profiles(spawner):
   
   #auth_state['oauth_user']['groups']: is not usable with ldap
   #if 'grp-jhub-admin' in auth_state['oauth_user']['groups']:
-  if "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev" in auth_state.groups:
+  if "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev" in auth_state.attributes['memberOf']:
     profile_list.append(profiles.medium_instance)
 
   return profile_list
@@ -39,5 +39,5 @@ def set_env(spawner):
 
 #debug
 def userdata_hook(spawner):
-  spawner.userdata = auth_state["userdata"]
-  #print(auth_state)
+  #spawner.userdata = auth_state["userdata"]
+  print(auth_state)
