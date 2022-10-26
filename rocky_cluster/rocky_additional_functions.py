@@ -5,7 +5,7 @@ import profiles
 def get_profiles(spawner):
 
   auth_state = yield spawner.user.get_auth_state()
-  print(vars(auth_state))
+  print(auth_state)
   profile_list = []
   profile_list.append(profiles.small_instance)
   
