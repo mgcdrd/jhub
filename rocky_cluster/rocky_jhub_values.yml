@@ -24,8 +24,12 @@ hub:
       admin_groups:
       - "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev" 
       auth_state_attributes:
+      - uid
       - memberOf
-      
+      - loginShell
+      - uidNumber
+
+
       # Bind account info
       lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID         #when using the lookup_dn, some ldaps don't like anonymous binds
       lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD  #when using the lookup_dn, some ldaps don't like anonymous binds
