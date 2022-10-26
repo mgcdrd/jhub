@@ -6,7 +6,7 @@ def get_profiles(spawner):
 
   #this is not necessary for ldap
   #auth_state = yield spawner.user.get_auth_state()
-  print(auth_state)
+  print(vars(spawner))
   profile_list = []
   profile_list.append(profiles.small_instance)
   
