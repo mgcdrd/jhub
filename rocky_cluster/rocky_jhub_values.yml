@@ -7,50 +7,25 @@ hub:
   config:
     JupyterHub:
       admin_access: true
-      #authenticator_class: generic-oauth
-      authenticator_class: ldapauthenticator.LDAPAuthenticator
-    ## Ref: https://github.com/jupyterhub/ldapauthenticator
-    LDAPAuthenticator:
-      # LDAPS conn info
-      server_address: SET_IN_CLI 
-      server_port: 636
-      use_ssl: true 
-      lookup_dn: false
-      bind_dn_template: 
-      - "uid={username},cn=users,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
-      allowed_groups: 
-      - "cn=grp-jhub-user,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
-      - "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev"
+      authenticator_class: generic-oauth
+    GenericOAuthenticator:
+      client_id: JHub
+      client_secret: SET_IN_CLI #OAUTH_SECRET
+      oauth_callback_url: https://jhub.LAB_DOMAIN/hub/oauth_callback
+      authorize_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/auth
+      token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
+      userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
+      login_service: keycloak
+      manage_groups: true
+      username_key: preferred_username
+      enable_auth_state: true
+      userdata_params:
+        state: state
+      allowed_groups:
+      - grp-jhub-user
+      - grp-jhub-admin
       admin_groups:
-      - "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev" 
-      auth_state_attributes:
-      - uid
-      - memberOf
-      - loginShell
-      - uidNumber
-
-
-      # Bind account info
-      lookup_dn_search_user: SET_IN_CLI #LDAP_BIND_UID         #when using the lookup_dn, some ldaps don't like anonymous binds
-      lookup_dn_search_password: SET_IN_CLI #LDAP_BIND_PASSWD  #when using the lookup_dn, some ldaps don't like anonymous binds
-    #GenericOAuthenticator:
-      #client_id: JHub
-      #client_secret: SET_IN_CLI #OAUTH_SECRET
-      #oauth_callback_url: https://jhub.LAB_DOMAIN/hub/oauth_callback
-      #authorize_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/auth
-      #token_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
-      #userdata_url: https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
-      #login_service: keycloak
-      #manage_groups: true
-      #username_key: preferred_username
-      #enable_auth_state: true
-      #userdata_params:
-        #state: state
-      #allowed_groups:
-      #- grp-jhub-user
-      #- grp-jhub-admin
-      #admin_groups:
-      #- grp-jhub-admin
+      - grp-jhub-admin
 
   service:
     type: ClusterIP

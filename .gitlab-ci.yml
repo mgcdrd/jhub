@@ -26,9 +26,9 @@ Deploy JHub Rocky:
     --set hub.config.GenericOAuthenticator.client_secret=${OAUTH_SECRET}
     --set-file hub.extraFiles.profileList.stringData=rocky_cluster/rocky_profiles.py
     --set-file hub.extraFiles.profileSpawnerFunctions.stringData=rocky_cluster/rocky_additional_functions.py
-    --set hub.config.LDAPAuthenticator.server_address=${DC_SERVER}
-    --set hub.config.LDAPAuthenticator.lookup_dn_search_user="${LDAP_BIND_UID}"
-    --set hub.config.LDAPAuthenticator.lookup_dn_search_password=${LDAP_BIND_PASSWD}
+    #--set hub.config.LDAPAuthenticator.server_address=${DC_SERVER}
+    #--set hub.config.LDAPAuthenticator.lookup_dn_search_user="${LDAP_BIND_UID}"
+    #--set hub.config.LDAPAuthenticator.lookup_dn_search_password=${LDAP_BIND_PASSWD}
 
 
     
