@@ -26,7 +26,7 @@ def set_env(spawner):
   spawner.environment['NB_USER'] = auth_state['oauth_user']['preferred_username']
   spawner.environment['NB_UID'] = auth_state['oauth_user']['uid']
   spawner.environment['NB_GID'] = auth_state['oauth_user']['gid']
-  spawner.environment['HOME'] = auth_state['oauth_user']['home']
+  #spawner.environment['HOME'] = auth_state['oauth_user']['home']
   spawner.environment['USER'] = auth_state['oauth_user']['preferred_username']
 
   #some others that can be tested for security
