@@ -61,13 +61,13 @@ medium_instance = {
         "latest": {
           "display_name": "singleuser:latest",
           "kubespawner_override": {
-            "image": "jupyterhub/singleuser:latest"
+            "image": "registry.lab.provenzawt.dev/forme/jhub-tensorflow:latest"
           }
         },
         "3.0": {
           "display_name": "singleuser:3.0",
           "kubespawner_override": {
-            "image": "jupyterhub/singleuser:3.0"
+            "image": "registry.lab.provenzawt.dev/forme/jhub-tensorflow:latest"
           }
         }
       }
