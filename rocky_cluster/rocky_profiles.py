@@ -62,14 +62,14 @@ medium_instance = {
           "display_name": "singleuser:latest",
           "kubespawner_override": {
             "image": "registry.lab.provenzawt.dev/forme/jhub-tensorflow:latest",
-            "cmd": "custom_startup"
+            "cmd": "/usr/local/bin/custom_startup"
           }
         },
         "3.0": {
           "display_name": "singleuser:3.0",
           "kubespawner_override": {
             "image": "registry.lab.provenzawt.dev/forme/jhub-tensorflow:latest",
-            "cmd": "custom_startup"
+            "cmd": "/usr/local/bin/custom_startup"
           }
         }
       }
