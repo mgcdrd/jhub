@@ -38,6 +38,19 @@ medium_instance = {
   "kubespawner_override":{
     "cpu_limit": 2,
     "mem_limit": '1G',
+    "volumes": [
+      "name": "ldapMnt",
+      "nfs": {
+        "server": "nfsserver.lab.provenzawt.dev",
+        "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
+      }
+    ],
+    "volume_mounts": [
+      {
+        "name": "ldapMnt",
+        "mountPath": "/etc/ldap"
+      }
+    ]
   },
   "profile_options": {
     "image": {
