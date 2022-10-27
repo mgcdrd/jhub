@@ -12,28 +12,25 @@ def get_profiles(spawner):
 
   if 'grp-jhub-admin' in auth_state['oauth_user']['groups']:
     profile_list.append(profiles.medium_instance)
-
   return profile_list
 
 
 @gen.coroutine
 def set_env(spawner):
-  print(" ")
-  #auth_state = yield spawner.user.get_auth_state()
-
   
-  #spawner.uid = #the uid from the get__auth_state
-  #supplemental_gids
-  #gid
+  auth_state = yield spawner.user.get_auth_state()
 
+  spawner.uid = auth_state['oauth_user']['uid']
+  spawner.gid = auth_state['oauth_user']['gid']
+  spawner.fs_gid = auth_state['oauth_user']['fs_gid']
+  spawner.environment['NB_USER'] = auth_state['oauth_user']['preferred_username']
+  spawner.environment['NB_UID'] = auth_state['oauth_user']['uid']
+  spawner.environment['NB_GID'] = auth_state['oauth_user']['gid']
+  spawner.environment['HOME'] = auth_state['oauth_user']['home']
+  spawner.environment['USER'] = auth_state['oauth_user']['preferred_username']
 
-
-  #volumes #just like volumes on a pod
-  #volume_mounts #just like volumeMounts on a pod
-  #working_dir
-
-
-
+  #some others that can be tested for security
+  spawner.disable_user_config = False
 
 #debug
 def userdata_hook(spawner):
