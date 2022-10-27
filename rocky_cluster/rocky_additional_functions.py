@@ -22,7 +22,7 @@ def set_env(spawner):
 
   spawner.uid = int(auth_state['oauth_user']['uid'])
   spawner.gid = int(auth_state['oauth_user']['gid'])
-  spawner.fs_gid = int(auth_state['oauth_user']['fs_gid'])
+  spawner.fs_gid = int(auth_state['oauth_user']['gid'])
   spawner.environment['NB_USER'] = auth_state['oauth_user']['preferred_username']
   spawner.environment['NB_UID'] = auth_state['oauth_user']['uid']
   spawner.environment['NB_GID'] = auth_state['oauth_user']['gid']
