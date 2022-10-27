@@ -5,10 +5,10 @@
 small_instance = {
   "display_name": "Small Instance",
   "slug":  "sm-instance",
-  "default": True,
+  "default": False,
   "kubespawner_override":{
     "cpu_limit": 1,
-    "mem_limit": '512M',
+    "mem_limit": '1G',
   },
   "profile_options": {
     "image": {
