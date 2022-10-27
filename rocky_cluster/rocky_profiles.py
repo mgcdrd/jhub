@@ -39,10 +39,12 @@ medium_instance = {
     "cpu_limit": 2,
     "mem_limit": '1G',
     "volumes": [
-      "name": "ldapMnt",
-      "nfs": {
-        "server": "nfsserver.lab.provenzawt.dev",
-        "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
+      {
+        "name": "ldapMnt",
+        "nfs": {
+          "server": "nfsserver.lab.provenzawt.dev",
+          "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
+        }
       }
     ],
     "volume_mounts": [
