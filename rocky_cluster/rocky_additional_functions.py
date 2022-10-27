@@ -4,16 +4,13 @@ import profiles
 @gen.coroutine
 def get_profiles(spawner):
 
-  #this is not necessary for ldap
-  #auth_state = yield spawner.user.get_auth_state()
   auth_state = yield spawner.user.get_auth_state()
   print(auth_state)
   profile_list = []
   profile_list.append(profiles.small_instance)
   
-  #auth_state['oauth_user']['groups']: is not usable with ldap
-  #if 'grp-jhub-admin' in auth_state['oauth_user']['groups']:
-  if "cn=grp-jhub-admin,cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev" in auth_state.attributes.memberOf:
+
+  if 'grp-jhub-admin' in auth_state['oauth_user']['groups']:
     profile_list.append(profiles.medium_instance)
 
   return profile_list
