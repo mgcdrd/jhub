@@ -7,7 +7,7 @@ workflow:
 #variables:
   
 Deploy JHub Rocky:
-  image: registry.lab.provenzawt.dev/forme/k8stools:latest
+  image: registry.${LAB_DOMAIN}/forme/k8stools:latest
   tags:
   - "rocky-k8s"
   script:
