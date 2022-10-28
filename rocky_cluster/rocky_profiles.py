@@ -44,13 +44,13 @@ medium_instance = {
         "nfs": {
           "server": "nfsserver.lab.provenzawt.dev",
           "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
-        },
-        {
-          "name": "home-dirs",
-          "nfs": {
-            "server": "nfsserver.lab.provenzawt.dev",
-            "path": "/nfs/backups/desktop_backups/20220617/rocky_vm"
-          }
+        }
+      },
+      {
+        "name": "home-dirs",
+        "nfs": {
+          "server": "nfsserver.lab.provenzawt.dev",
+          "path": "/nfs/backups/desktop_backups/20220617/rocky_vm"
         }
       }
     ],
