@@ -42,14 +42,14 @@ medium_instance = {
       {
         "name": "ldap-mnt",
         "nfs": {
-          "server": "nfsserver.lab.provenzawt.dev",
+          "server": "nfsserver.LAB_DOMAIN",
           "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
         }
       },
       {
         "name": "home-dirs",
         "nfs": {
-          "server": "nfsserver.lab.provenzawt.dev",
+          "server": "nfsserver.LAB_DOMAIN",
           "path": "/nfs/backups/desktop_backups/20220617/rocky_vm"
         }
       }
@@ -72,7 +72,7 @@ medium_instance = {
         "latest": {
           "display_name": "singleuser:latest",
           "kubespawner_override": {
-            "image": "registry.lab.provenzawt.dev/forme/jhub-tensorflow:latest",
+            "image": "registry.LAB_DOMAIN/forme/jhub-tensorflow:latest",
             "image_pull_policy": "Always",
             "cmd": "/usr/local/bin/custom_startup"
           }
@@ -80,7 +80,7 @@ medium_instance = {
         "3.0": {
           "display_name": "singleuser:3.0",
           "kubespawner_override": {
-            "image": "registry.lab.provenzawt.dev/forme/jhub-tensorflow:latest",
+            "image": "registry.LAB_DOMAIN/forme/jhub-tensorflow:latest",
             "image_pull_policy": "Always",
             "cmd": "/usr/local/bin/custom_startup"
           }
