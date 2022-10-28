@@ -14,6 +14,7 @@ Deploy JHub Rocky:
   - sed -i "s/LDAP_DN_INFO/${LDAP_DN_INFO}/g"           rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
+  - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_profiles.py
   - >
     helm upgrade jhub jupyterhub
     -n jhub

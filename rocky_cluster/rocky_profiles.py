@@ -5,10 +5,10 @@
 small_instance = {
   "display_name": "Small Instance",
   "slug":  "sm-instance",
-  "default": True,
+  "default": False,
   "kubespawner_override":{
     "cpu_limit": 1,
-    "mem_limit": '512M',
+    "mem_limit": '1G',
   },
   "profile_options": {
     "image": {
@@ -38,6 +38,32 @@ medium_instance = {
   "kubespawner_override":{
     "cpu_limit": 2,
     "mem_limit": '1G',
+    "volumes": [
+      {
+        "name": "ldap-mnt",
+        "nfs": {
+          "server": "nfsserver.LAB_DOMAIN",
+          "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
+        }
+      },
+      {
+        "name": "home-dirs",
+        "nfs": {
+          "server": "nfsserver.LAB_DOMAIN",
+          "path": "/nfs/backups/desktop_backups/20220617/rocky_vm"
+        }
+      }
+    ],
+    "volume_mounts": [
+      {
+        "name": "ldap-mnt",
+        "mountPath": "/etc/ldap"
+      },
+      {
+        "name": "home-dirs",
+        "mountPath": "/home/provenzawt"
+      }
+    ]
   },
   "profile_options": {
     "image": {
@@ -46,13 +72,17 @@ medium_instance = {
         "latest": {
           "display_name": "singleuser:latest",
           "kubespawner_override": {
-            "image": "jupyterhub/singleuser:latest"
+            "image": "registry.LAB_DOMAIN/forme/jhub-tensorflow:latest",
+            "image_pull_policy": "Always",
+            "cmd": "/usr/local/bin/custom_startup"
           }
         },
         "3.0": {
           "display_name": "singleuser:3.0",
           "kubespawner_override": {
-            "image": "jupyterhub/singleuser:3.0"
+            "image": "registry.LAB_DOMAIN/forme/jhub-tensorflow:latest",
+            "image_pull_policy": "Always",
+            "cmd": "/usr/local/bin/custom_startup"
           }
         }
       }
