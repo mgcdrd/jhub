@@ -42,6 +42,40 @@ hub:
       lookup_dn_user_dn_attribute: uid
 ```
 
+Woirking LDAP:
+```
+hub:
+  revisionHistoryLimit:
+  config:
+    JupyterHub:
+      admin_access: true
+      authenticator_class: ldapauthenticator.LDAPAuthenticator
+    ## Ref: https://github.com/jupyterhub/ldapauthenticator
+    LDAPAuthenticator:
+      # LDAPS conn info
+      server_address: SET_IN_CLI 
+      server_port: 636
+      use_ssl: true 
+      lookup_dn: false
+      bind_dn_template: 
+      - "uid={username},cn=users,dc=acme,dc=com"
+      allowed_groups: 
+      - "cn=grp-jhub-user,cn=groups,dc=acme,dc=com"
+      - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com"
+      admin_groups:
+      - "cn=grp-jhub-admin,cn=groups,dc=acme,dc=com" 
+      auth_state_attributes:
+      - uid
+      - memberOf
+      - loginShell
+      - uidNumber
+      lookup_dn_search_user: SET_IN_CLI #just the username, not the dn - because it's specified above
+      lookup_dn_search_password: SET_IN_CLI 
+```
+
+
+
+
 OAuth - in this case Keycloak
 ```
 hub:

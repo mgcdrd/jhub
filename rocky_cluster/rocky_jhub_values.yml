@@ -54,11 +54,9 @@ hub:
   extraConfig: 
     import_custom: |
       import additional_functions as functs
-      
-      #debug
-      c.Authenticator.post_auth_hook = functs.print_auth_hook
 
       c.KubeSpawner.profile_list = functs.get_profiles
+      c.KubeSpawner.pre_spawn_hook = functs.set_env
   extraFiles:
     profileList:
       mountPath: /usr/local/etc/jupyterhub/profiles.py
