@@ -44,6 +44,13 @@ medium_instance = {
         "nfs": {
           "server": "nfsserver.lab.provenzawt.dev",
           "path": "/nfs/containers/srv_data/rocky_pgsql/ldap/"
+        },
+        {
+          "name": "home-dirs",
+          "nfs": {
+            "server": "nfsserver.lab.provenzawt.dev",
+            "path": "/nfs/backups/desktop_backups/20220617/rocky_vm/"
+          }
         }
       }
     ],
@@ -51,6 +58,10 @@ medium_instance = {
       {
         "name": "ldap-mnt",
         "mountPath": "/etc/ldap"
+      },
+      {
+        "name": "home-dirs",
+        "mountPath": "/home/provenzawt"
       }
     ]
   },
