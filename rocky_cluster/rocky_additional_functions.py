@@ -54,11 +54,12 @@ def userdata_hook(spawner):
   print(" ")
 
 def get_ldap_groups(GRP_LIST):
-  gid_list = []  
+  return_list = []  
   
-  server = Server(LDAP_SERVER)
-  conn = Connection(server, LDAP_USER, LDAP_PASSWD)
+  server = Server(LDAP_SERVER, port=389, use_ssl=False)
+  conn = Connection(server, user=LDAP_USER, password=LDAP_PASSWD)
   for grp in GRP_LIST:
-     conn.search(LDAP_DN, f'(cn=grp)', attributes=[LDAP_GID_ATTR])
-     print(conn.entries)
+    temp_string = "'(" + LDAP_GRP_NAME_ATTR + "=" + grp + ")'"
+    conn.search(LDAP_DN, temp_string, attributes=[LDAP_GID_ATTR])
+    print(conn.entries)
   
