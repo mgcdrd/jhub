@@ -59,6 +59,6 @@ def get_ldap_groups(GRP_LIST):
   server = Server(LDAP_SERVER)
   conn = Connection(server, LDAP_USER, LDAP_PASSWD)
   for grp in GRP_LIST:
-     conn.search(LDAP_DN, f'(cn=grp)', attributes=['LDAP_GID_ATTR])
+     conn.search(LDAP_DN, f'(cn=grp)', attributes=[LDAP_GID_ATTR])
      print(conn.entries)
   
