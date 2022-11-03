@@ -4,8 +4,6 @@ from ldap3 import Server, Connection
 
 #LDAP variables to be set to get my ldap gidNumber
 LDAP_SERVER = 'ipa.lab.provenzawt.dev'
-LDAP_USER =  'admin'
-LDAP_PASSWD =  '11P@ssword12'
 LDAP_GRP_NAME_ATTR = 'cn'
 LDAP_DN = 'cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev'
 LDAP_GID_ATTR = 'gidNumber'
@@ -57,9 +55,10 @@ def get_ldap_groups(GRP_LIST):
   return_list = []  
   
   server = Server(LDAP_SERVER, port=389, use_ssl=False)
-  conn = Connection(server, user=LDAP_USER, password=LDAP_PASSWD)
+  conn = Connection(server, auto_bind=True)
   for grp in GRP_LIST:
-    temp_string = "'(" + LDAP_GRP_NAME_ATTR + "=" + grp + ")'"
-    conn.search(LDAP_DN, temp_string, attributes=[LDAP_GID_ATTR])
-    print(conn.entries)
+    conn.search(LDAP_DN, f'({LDAP_GRP_NAME_ATTR}={grp})' , attributes=[f'{LDAP_GID_ATTR}'])
+    return_list.append(conn.entries[0][f'{LDAP_GID_ATTR}'].value)
+
+  return return_list
   
