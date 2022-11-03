@@ -30,10 +30,7 @@ def set_env(spawner):
 
   spawner.uid = int(auth_state['oauth_user']['uid'])
   spawner.gid = int(auth_state['oauth_user']['gid'])
-
-  #spawner.supplemental_gids = get_ldap_groups(auth_state['oauth_user']['groups'])
-  get_ldap_groups(auth_state['oauth_user']['groups']) #debug
-
+  spawner.supplemental_gids = get_ldap_groups(auth_state['oauth_user']['groups'])
   spawner.fs_gid = int(auth_state['oauth_user']['gid'])
   spawner.notbook_dir = auth_state['oauth_user']['home']
   spawner.working_dir = auth_state['oauth_user']['home']
