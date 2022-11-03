@@ -3,9 +3,9 @@ import profiles
 from ldap3 import Server, Connection
 
 #LDAP variables to be set to get my ldap gidNumber
-LDAP_SERVER = 'ipa.lab.provenzawt.dev'
+LDAP_SERVER = 'ipa.LAB_DOMAIN'
 LDAP_GRP_NAME_ATTR = 'cn'
-LDAP_DN = 'cn=groups,cn=accounts,dc=lab,dc=provenzawt,dc=dev'
+LDAP_DN = 'cn=groups,cn=accounts,LDAP_DN_INFO'
 LDAP_GID_ATTR = 'gidNumber'
 
 
@@ -43,11 +43,10 @@ def set_env(spawner):
   #some others that can be tested for security
   spawner.disable_user_config = False
 
-#debug
-def userdata_hook(spawner):
-  #spawner.userdata = auth_state["userdata"]
-  print(" ")
 
+# Because my OIDC service doesn't have the LDAP group GIDs, we have to manually pull this.
+#  This is the point of this function.  Since Jhub gets the group names, we can use those to get the GIDs to hand to the spawner
+#  The parameter is assumed to be in a list, which is how the OIDC token gives it.
 def get_ldap_groups(GRP_LIST):
   return_list = []  
   
