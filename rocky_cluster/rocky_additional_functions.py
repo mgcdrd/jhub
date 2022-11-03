@@ -48,16 +48,12 @@ def set_env(spawner):
 #  This is the point of this function.  Since Jhub gets the group names, we can use those to get the GIDs to hand to the spawner
 #  The parameter is assumed to be in a list, which is how the OIDC token gives it.
 def get_ldap_groups(GRP_LIST):
-  return_list = []  
-  
+  return_list = []
   server = Server(LDAP_SERVER, port=389, use_ssl=False)
   conn = Connection(server, auto_bind=True)
   for grp in GRP_LIST:
     conn.search(LDAP_DN, f'({LDAP_GRP_NAME_ATTR}={grp})' , attributes=[f'{LDAP_GID_ATTR}'])
-    print(conn.entries) #debug
-    return_list.append(conn.entries[0][f'{LDAP_GID_ATTR}'])
-
-
-
+    print(conn.entries)
+    return_list.append(conn.entries[0][f'{LDAP_GID_ATTR}'].value)
   return return_list
-  
+
