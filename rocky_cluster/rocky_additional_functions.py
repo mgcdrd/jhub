@@ -56,4 +56,5 @@ def get_ldap_groups(GRP_LIST):
     conn.search(LDAP_DN, f'({LDAP_GRP_NAME_ATTR}={grp})' , attributes=[f'{LDAP_GID_ATTR}'])
     print(conn.entries)
     return_list.append(conn.entries[0][f'{LDAP_GID_ATTR}'].value)
+
   return return_list
