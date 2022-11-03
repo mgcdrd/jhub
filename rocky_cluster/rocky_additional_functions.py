@@ -5,7 +5,7 @@ from ldap3 import Server, Connection
 #LDAP variables to be set to get my ldap gidNumber
 LDAP_SERVER = 'ipa.LAB_DOMAIN'
 LDAP_GRP_NAME_ATTR = 'cn'
-LDAP_DN = 'cn=groups,cn=accounts,LDAP_DN_INFO'
+LDAP_DN = 'cn=groups,LDAP_DN_INFO'
 LDAP_GID_ATTR = 'gidNumber'
 
 
@@ -49,6 +49,7 @@ def set_env(spawner):
 #  The parameter is assumed to be in a list, which is how the OIDC token gives it.
 def get_ldap_groups(GRP_LIST):
   return_list = []
+
   server = Server(LDAP_SERVER, port=389, use_ssl=False)
   conn = Connection(server, auto_bind=True)
   for grp in GRP_LIST:
@@ -56,4 +57,3 @@ def get_ldap_groups(GRP_LIST):
     print(conn.entries)
     return_list.append(conn.entries[0][f'{LDAP_GID_ATTR}'].value)
   return return_list
-
