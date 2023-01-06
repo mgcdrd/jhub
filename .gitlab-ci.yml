@@ -22,7 +22,7 @@
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_additional_functions.py
   - sed -i "s/LDAP_DN_INFO/${LDAP_DN_INFO}/g"           rocky_cluster/rocky_additional_functions.py
   - >
-    helm upgrade jhub jupyterhub
+    helm upgrade ${NAMESPACE} jupyterhub
     -n ${NAMESPACE}
     --create-namespace
     --install
