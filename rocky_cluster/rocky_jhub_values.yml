@@ -80,6 +80,8 @@ proxy:
 # singleuser relates to the configuration of KubeSpawner which runs in the hub
 # pod, and its spawning of user pods such as jupyter-myusername.
 singleuser:
+  nodeSelector:
+    nodetype: large
   networkTools:
     image:
       name: jupyterhub/k8s-network-tools
