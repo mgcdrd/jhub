@@ -5,6 +5,7 @@
     on_stop: "Post Testing"
   variables:
     NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
   rules:
   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     when: never
@@ -44,6 +45,7 @@
     action: stop
   variables:
     NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
   rules:
   - if: $CI_MERGE_REQUEST_IID
   tags:
@@ -58,6 +60,7 @@
     url: https://jhub.lab.provenzawt.dev
   variables:
     NAMESPACE: jhub
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
   rules:
   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   tags:
