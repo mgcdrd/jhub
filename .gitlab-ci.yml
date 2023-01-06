@@ -67,7 +67,7 @@
   tags:
   - "rocky-k8s"
   script:
-  - kubectl create ns ${NAMESPACE}
+  - if [[ ! $(kubectl  get ns ${NAMESPACE}  2> /dev/null) ]]; then kubectl create ns ${NAMESPACE}; fi
   - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_profiles.py
