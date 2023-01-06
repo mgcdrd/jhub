@@ -80,6 +80,8 @@ proxy:
 # singleuser relates to the configuration of KubeSpawner which runs in the hub
 # pod, and its spawning of user pods such as jupyter-myusername.
 singleuser:
+  nodeSelector:
+    nodetype: large
   networkTools:
     image:
       name: jupyterhub/k8s-network-tools
@@ -122,16 +124,16 @@ ingress:
     cert-manager.io/cluster-issuer: "le-prod"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.tls.domains.0.main: jhub.LAB_DOMAIN
+    traefik.ingress.kubernetes.io/router.tls.domains.0.main: SET_IN_CI
   ingressClassName: "traefik"
   hosts:
-  - jhub.LAB_DOMAIN
+  - SET_IN_CI
   pathSuffix:
   pathType: Prefix
   tls:
   - secretName: jhub-tls
     hosts:
-    - jhub.LAB_DOMAIN
+    - SET_IN_CI
 
 cull:
   timeout: 3600

@@ -1,24 +1,29 @@
-workflow:
+"Deploy Dev Env":
+  environment:
+    name: development
+    url: https://${CI_ENVIRONMENT_SLUG}-jhub.kube.lab.provenzawt.dev
+    on_stop: "Post Testing"
+  variables:
+    NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
   rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    when: never
+  - if: $CI_MERGE_REQUEST_IID
+    when: never
   - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-
-#=====================================================
-
-#variables:
-  
-Deploy JHub Rocky:
-  image: registry.${LAB_DOMAIN}/forme/k8stools:latest
   tags:
   - "rocky-k8s"
   script:
+  - if [[ ! $(kubectl  get ns ${NAMESPACE}  2> /dev/null) ]]; then kubectl create ns ${NAMESPACE}; fi
   - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_profiles.py
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_additional_functions.py
   - sed -i "s/LDAP_DN_INFO/${LDAP_DN_INFO}/g"           rocky_cluster/rocky_additional_functions.py
   - >
-    helm upgrade jhub jupyterhub
-    -n jhub
+    helm upgrade ${NAMESPACE} jupyterhub
+    -n ${NAMESPACE}
     --create-namespace
     --install
     --atomic
@@ -28,9 +33,59 @@ Deploy JHub Rocky:
     --set hub.config.GenericOAuthenticator.client_secret=${OAUTH_SECRET}
     --set-file hub.extraFiles.profileList.stringData=rocky_cluster/rocky_profiles.py
     --set-file hub.extraFiles.profileSpawnerFunctions.stringData=rocky_cluster/rocky_additional_functions.py
-    #--set hub.config.LDAPAuthenticator.server_address=${DC_SERVER}
-    #--set hub.config.LDAPAuthenticator.lookup_dn_search_user="${LDAP_BIND_UID}"
-    #--set hub.config.LDAPAuthenticator.lookup_dn_search_password=${LDAP_BIND_PASSWD}
+    --set ingress.annotations."traefik\.ingress\.kubernetes\.io\/router\.tls\.domains\.0\.main"="${NAMESPACE}.kube.${LAB_DOMAIN}"
+    --set ingress.hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
+    --set ingress.tls[0].hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
 
 
-    
+"Post Testing":
+  environment:
+    name: development
+    url: https://${CI_ENVIRONMENT_SLUG}-jhub.kube.lab.provenzawt.dev
+    action: stop
+  variables:
+    NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
+  rules:
+  - if: $CI_MERGE_REQUEST_IID
+  tags:
+  - "rocky-k8s"
+  script:
+  - if [[ $(kubectl  get ns ${NAMESPACE}  2> /dev/null) ]]; then kubectl delete ns ${NAMESPACE}; fi 
+  
+  
+  
+"Deploy Prod Env":
+  environment:
+    name: prod
+    url: https://jhub.lab.provenzawt.dev
+  variables:
+    NAMESPACE: jhub
+  image: registry.lab.provenzawt.dev/forme/k8stools:latest
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+  - "rocky-k8s"
+  script:
+  - kubectl create ns ${NAMESPACE}
+  - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
+  - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
+  - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_profiles.py
+  - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_additional_functions.py
+  - sed -i "s/LDAP_DN_INFO/${LDAP_DN_INFO}/g"           rocky_cluster/rocky_additional_functions.py
+  - >
+    helm upgrade jhub jupyterhub
+    -n ${NAMESPACE}
+    --create-namespace
+    --install
+    --atomic
+    -f rocky_cluster/rocky_jhub_values.yml
+    --repo https://jupyterhub.github.io/helm-chart/
+    --version 2.0.0
+    --set hub.config.GenericOAuthenticator.client_secret=${OAUTH_SECRET}
+    --set-file hub.extraFiles.profileList.stringData=rocky_cluster/rocky_profiles.py
+    --set-file hub.extraFiles.profileSpawnerFunctions.stringData=rocky_cluster/rocky_additional_functions.py
+    --set ingress.annotations."traefik.ingress.kubernetes.io/router.tls.domains.0.main"=${NAMESPACE}.kube.${LAB_DOMAIN}
+    --set ingress.hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
+    --set ingress.tls[0].hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
+  
