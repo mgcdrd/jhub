@@ -90,3 +90,4 @@
     --set ingress.hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
     --set ingress.tls[0].hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
   
+  
