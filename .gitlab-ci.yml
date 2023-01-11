@@ -51,6 +51,7 @@
   tags:
   - "rocky-k8s"
   script:
+  - env
   - if [[ $(kubectl  get ns ${NAMESPACE}  2> /dev/null) ]]; then kubectl delete ns ${NAMESPACE}; fi 
   
   
