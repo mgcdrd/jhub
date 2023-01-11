@@ -1,10 +1,10 @@
 "Deploy Dev Env":
   environment:
-    name: development
-    url: https://${CI_ENVIRONMENT_SLUG}-jhub.kube.lab.provenzawt.dev
+    name: dev/$CI_COMMIT_REF_SLUG
+    url: https://${CI_COMMIT_REF_SLUG}-jhub.kube.lab.provenzawt.dev
     on_stop: "Post Testing"
   variables:
-    NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
+    NAMESPACE: ${CI_COMMIT_REF_SLUG}-jhub
   image: registry.lab.provenzawt.dev/forme/k8stools:latest
   rules:
   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
