@@ -44,7 +44,7 @@
     url: https://${CI_COMMIT_REF_SLUG}-jhub.kube.lab.provenzawt.dev
     action: stop
   variables:
-    NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
+    NAMESPACE: ${CI_COMMIT_REF_SLUG}-jhub
   image: registry.lab.provenzawt.dev/forme/k8stools:latest
   rules:
   - if: $CI_MERGE_REQUEST_IID
