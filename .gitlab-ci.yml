@@ -40,8 +40,8 @@
 
 "Post Testing":
   environment:
-    name: development
-    url: https://${CI_ENVIRONMENT_SLUG}-jhub.kube.lab.provenzawt.dev
+    name: dev/$CI_COMMIT_REF_SLUG
+    url: https://${CI_COMMIT_REF_SLUG}-jhub.kube.lab.provenzawt.dev
     action: stop
   variables:
     NAMESPACE: ${CI_ENVIRONMENT_SLUG}-jhub
