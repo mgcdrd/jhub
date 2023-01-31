@@ -52,6 +52,13 @@ medium_instance = {
           "server": "nfsserver.LAB_DOMAIN",
           "path": "/nfs/backups/desktop_backups/20220617/rocky_vm"
         }
+      },
+      {
+        "name": "var-lib-sss",
+        "hostPath:"{
+          "path": "/tmp/sss",
+          "type": "DirectoryOrCreate"
+        }
       }
     ],
     "volume_mounts": [
@@ -62,6 +69,10 @@ medium_instance = {
       {
         "name": "home-dirs",
         "mountPath": "/home/provenzawt"
+      },
+      {
+        "name": "var-lib-sss",
+        "mountPath": "/var/lib/sss"
       }
     ]
   },
