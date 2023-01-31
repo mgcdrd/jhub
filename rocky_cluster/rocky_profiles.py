@@ -55,7 +55,7 @@ medium_instance = {
       },
       {
         "name": "var-lib-sss",
-        "hostPath:"{
+        "hostPath": {
           "path": "/tmp/sss",
           "type": "DirectoryOrCreate"
         }
