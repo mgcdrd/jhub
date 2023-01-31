@@ -34,7 +34,7 @@
     --set hub.config.GenericOAuthenticator.client_secret=${OAUTH_SECRET}
     --set-file hub.extraFiles.profileList.stringData=rocky_cluster/rocky_profiles.py
     --set-file hub.extraFiles.profileSpawnerFunctions.stringData=rocky_cluster/rocky_additional_functions.py
-    --set ingress.annotations."traefik.ingress.kubernetes.io/router.tls.domains.0.main"="${NAMESPACE}.kube.${LAB_DOMAIN}"
+    --set ingress.annotations.traefik\.ingress\.kubernetes\.io\/router\.tls\.domains\.0\.main="${NAMESPACE}.kube.${LAB_DOMAIN}"
     --set ingress.hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
     --set ingress.tls[0].hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
 
