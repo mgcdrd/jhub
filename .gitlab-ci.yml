@@ -15,6 +15,7 @@
   tags:
   - "rocky-k8s"
   script:
+  - kubectl -n ${NAMESPACE} apply -f rocky_cluster/sssd_container.yml
   - if [[ ! $(kubectl  get ns ${NAMESPACE}  2> /dev/null) ]]; then kubectl create ns ${NAMESPACE}; fi
   - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
@@ -68,6 +69,7 @@
   tags:
   - "rocky-k8s"
   script:
+  - kubectl -n ${NAMESPACE} apply -f rocky_cluster/sssd_container.yml
   - if [[ ! $(kubectl  get ns ${NAMESPACE}  2> /dev/null) ]]; then kubectl create ns ${NAMESPACE}; fi
   - sed -i "s/OAUTH_SERVER_FQDN/${OAUTH_SERVER_FQDN}/g" rocky_cluster/rocky_jhub_values.yml
   - sed -i "s/LAB_DOMAIN/${LAB_DOMAIN}/g"               rocky_cluster/rocky_jhub_values.yml
@@ -89,5 +91,3 @@
     --set ingress.annotations."traefik.ingress.kubernetes.io/router.tls.domains.0.main"=${NAMESPACE}.kube.${LAB_DOMAIN}
     --set ingress.hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
     --set ingress.tls[0].hosts[0]=${NAMESPACE}.kube.${LAB_DOMAIN}
-  
-  
