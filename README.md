@@ -42,7 +42,7 @@ hub:
       lookup_dn_user_dn_attribute: uid
 ```
 
-Woirking LDAP:
+Working LDAP:
 ```
 hub:
   revisionHistoryLimit:
@@ -72,9 +72,6 @@ hub:
       lookup_dn_search_user: SET_IN_CLI #just the username, not the dn - because it's specified above
       lookup_dn_search_password: SET_IN_CLI 
 ```
-
-
-
 
 OAuth - in this case Keycloak
 ```
@@ -106,3 +103,48 @@ Notes about OAuth
   - this is using the generic OAuth for jhub, if can be extended, but I have modified my keycloak to provide things:
     -  My client for jhub provides groups as a default scope
     -  My groups are based on an LDAP-based backend (pulls them into the realm and serves them out to the client auth)
+
+
+### Notes on sssd_container.yml and associated changes:
+
+I found that when using some backend for authentication, I would receive from the single user image terminal about not being able to resolve UID and GID of the user.  It made sense to enable this for users, mainly to lessen confusion, but to also enable better user management for shared storage and such.  
+
+My working solution is to utilize a custom image which is based on a Rocky 8 image with sssd that will connect to the LDAP backend, and store the user/group info in a way that can be shared across the other pods.  The implementation in this case is to use a daemonset to have this image running on all nodes, and also use a hostPath for the /var/lib/sss dorectory; which can then be mounted on the single user images for use.  I also had to modify my single user images so they contained the sssd packages necessary to look at the sssd data.
+
+The changes to this repo for this is as follows:
+
+```
+# For demonstration purposes I have included sssd_container.yml to show the mounts on the sssd image.
+
+# In rocky_profiles.py added the following:
+
+medium_instance = {
+...
+    "volumes": [
+...
+      {
+        "name": "var-lib-sss",
+        "hostPath": {
+          "path": "/tmp/sss",
+          "type": "DirectoryOrCreate"
+        }
+      }
+    ],
+    "volume_mounts": [
+...
+      {
+        "name": "var-lib-sss",
+        "mountPath": "/var/lib/sss"
+      }
+    ]
+  }
+...
+}
+
+```
+
+For information on what i did in the single user image, being based on ubuntu, i added the line below to the Dockerfile:
+```
+RUN apt-get update && apt-get install -y sssd libpam-sss libnss-sss sssd-tools
+
+```
