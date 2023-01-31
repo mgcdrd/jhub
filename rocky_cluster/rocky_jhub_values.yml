@@ -97,8 +97,14 @@ singleuser:
   storage:
     type: dynamic
     extraLabels: {}
-    extraVolumes: []
-    extraVolumeMounts: []
+    extraVolumes:
+    - name: var-lib-sss
+      hostPath:
+        path: /tmp/sss
+        type: DirectoryOrCreate
+    extraVolumeMounts:
+    - name: var-lib-sss
+      mountPath: /var/lib/sss
     static:
       pvcName:
       subPath: "{username}"
