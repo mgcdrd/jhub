@@ -130,16 +130,16 @@ ingress:
     cert-manager.io/cluster-issuer: "le-prod"
     traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.tls.domains.0.main: "NAMESPACE.kube.LAB_DOMAIN"
+    traefik.ingress.kubernetes.io/router.tls.domains.0.main: "NAMESPACE.LAB_DOMAIN"
   ingressClassName: "traefik"
   hosts:
-  - NAMESPACE.kube.LAB_DOMAIN
+  - NAMESPACE.LAB_DOMAIN
   pathSuffix:
   pathType: Prefix
   tls:
   - secretName: jhub-tls
     hosts:
-    - NAMESPACE.kube.LAB_DOMAIN
+    - NAMESPACE.LAB_DOMAIN
 
 cull:
   timeout: 3600
