@@ -84,16 +84,14 @@ medium_instance = {
           "display_name": "singleuser:latest",
           "kubespawner_override": {
             "image": "registry.LAB_DOMAIN/forme/jhub-tensorflow:latest",
-            "image_pull_policy": "Always",
-            "cmd": "/usr/local/bin/custom_startup"
+            "image_pull_policy": "Always"
           }
         },
         "3.0": {
           "display_name": "singleuser:3.0",
           "kubespawner_override": {
             "image": "registry.LAB_DOMAIN/forme/jhub-tensorflow:latest",
-            "image_pull_policy": "Always",
-            "cmd": "/usr/local/bin/custom_startup"
+            "image_pull_policy": "Always"
           }
         }
       }
