@@ -13,8 +13,8 @@ hub:
       client_secret: SET_IN_CLI #OAUTH_SECRET
       oauth_callback_url: https://jhub.LAB_DOMAIN/hub/oauth_callback
       authorize_url: https://OAUTH_SERVER_FQDN/realms/Kubernetes/protocol/openid-connect/auth #https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/auth
-      token_url: https://OAUTH_SERVER_FQDN/realms/Kubernetes/protocol/openid-connect/token #https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
-      userdata_url: https://OAUTH_SERVER_FQDN/realms/Kubernetes/protocol/openid-connect/userinfo #https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
+      token_url:     https://OAUTH_SERVER_FQDN/realms/Kubernetes/protocol/openid-connect/token #https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/token
+      userdata_url:  https://OAUTH_SERVER_FQDN/realms/Kubernetes/protocol/openid-connect/userinfo #https://OAUTH_SERVER_FQDN/auth/realms/Kubernetes/protocol/openid-connect/userinfo
       login_service: keycloak
       manage_groups: true
       username_key: preferred_username
