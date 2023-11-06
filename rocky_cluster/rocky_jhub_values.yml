@@ -128,10 +128,8 @@ ingress:
   enabled: true
   annotations:
     cert-manager.io/cluster-issuer: "le-prod"
-    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.tls.domains.0.main: "NAMESPACE.LAB_DOMAIN"
-  ingressClassName: "traefik"
+    kubernetes.io/tls-acme: "true"
+  ingressClassName: "nginx"
   hosts:
   - NAMESPACE.LAB_DOMAIN
   pathSuffix:
